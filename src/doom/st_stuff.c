@@ -391,6 +391,7 @@ static int	st_randomnumber;
 
 cheatseq_t cheat_mus = CHEAT("idmus", 2);
 cheatseq_t cheat_god = CHEAT("iddqd", 0);
+cheatseq_t cheat_xxxxxx = CHEAT("idxxxxxx", 0);
 cheatseq_t cheat_ammo = CHEAT("idkfa", 0);
 cheatseq_t cheat_ammonokey = CHEAT("idfa", 0);
 cheatseq_t cheat_noclip = CHEAT("idspispopd", 0);
@@ -474,6 +475,10 @@ ST_Responder (event_t* ev)
       // 'dqd' cheat for toggleable god mode
       if (cht_CheckCheat(&cheat_god, ev->data2))
       {
+        plyr->message = DEH_String(STSTR_DQD_DIS);
+      }
+      else if (cht_CheckCheat(&cheat_xxxxxx, ev->data2))
+      {
 	plyr->cheats ^= CF_GODMODE;
 	if (plyr->cheats & CF_GODMODE)
 	{
@@ -489,33 +494,35 @@ ST_Responder (event_t* ev)
       // 'fa' cheat for killer fucking arsenal
       else if (cht_CheckCheat(&cheat_ammonokey, ev->data2))
       {
-	plyr->armorpoints = deh_idfa_armor;
-	plyr->armortype = deh_idfa_armor_class;
+        plyr->message = DEH_String(STSTR_FAADDED_DIS);
+        /* plyr->armorpoints = deh_idfa_armor; */
+        /* plyr->armortype = deh_idfa_armor_class; */
 	
-	for (i=0;i<NUMWEAPONS;i++)
-	  plyr->weaponowned[i] = true;
+        /* for (i=0;i<NUMWEAPONS;i++) */
+        /*   plyr->weaponowned[i] = true; */
 	
-	for (i=0;i<NUMAMMO;i++)
-	  plyr->ammo[i] = plyr->maxammo[i];
+        /* for (i=0;i<NUMAMMO;i++) */
+        /*   plyr->ammo[i] = plyr->maxammo[i]; */
 	
-	plyr->message = DEH_String(STSTR_FAADDED);
+        /* plyr->message = DEH_String(STSTR_FAADDED); */
       }
       // 'kfa' cheat for key full ammo
       else if (cht_CheckCheat(&cheat_ammo, ev->data2))
       {
-	plyr->armorpoints = deh_idkfa_armor;
-	plyr->armortype = deh_idkfa_armor_class;
+        plyr->message = DEH_String(STSTR_KFAADDED_DIS);
+        /* plyr->armorpoints = deh_idkfa_armor; */
+        /* plyr->armortype = deh_idkfa_armor_class; */
 	
-	for (i=0;i<NUMWEAPONS;i++)
-	  plyr->weaponowned[i] = true;
+        /* for (i=0;i<NUMWEAPONS;i++) */
+        /*   plyr->weaponowned[i] = true; */
 	
-	for (i=0;i<NUMAMMO;i++)
-	  plyr->ammo[i] = plyr->maxammo[i];
+        /* for (i=0;i<NUMAMMO;i++) */
+        /*   plyr->ammo[i] = plyr->maxammo[i]; */
 	
-	for (i=0;i<NUMCARDS;i++)
-	  plyr->cards[i] = true;
+        /* for (i=0;i<NUMCARDS;i++) */
+        /*   plyr->cards[i] = true; */
 	
-	plyr->message = DEH_String(STSTR_KFAADDED);
+        /* plyr->message = DEH_String(STSTR_KFAADDED); */
       }
       // 'mus' cheat for changing music
       else if (cht_CheckCheat(&cheat_mus, ev->data2))
@@ -561,40 +568,44 @@ ST_Responder (event_t* ev)
         // For Doom 1, use the idspipsopd cheat; for all others, use
         // idclip
 
-	plyr->cheats ^= CF_NOCLIP;
+        plyr->message = DEH_String(STSTR_NC_DIS);
+        /* plyr->cheats ^= CF_NOCLIP; */
 	
-	if (plyr->cheats & CF_NOCLIP)
-	  plyr->message = DEH_String(STSTR_NCON);
-	else
-	  plyr->message = DEH_String(STSTR_NCOFF);
+        /* if (plyr->cheats & CF_NOCLIP) */
+        /*   plyr->message = DEH_String(STSTR_NCON); */
+        /* else */
+        /*   plyr->message = DEH_String(STSTR_NCOFF); */
       }
       // 'behold?' power-up cheats
       for (i=0;i<6;i++)
       {
 	if (cht_CheckCheat(&cheat_powerup[i], ev->data2))
 	{
-	  if (!plyr->powers[i])
-	    P_GivePower( plyr, i);
-	  else if (i!=pw_strength)
-	    plyr->powers[i] = 1;
-	  else
-	    plyr->powers[i] = 0;
+          plyr->message = DEH_String(STSTR_BEHOLD_DIS);
+          /* if (!plyr->powers[i]) */
+          /*   P_GivePower( plyr, i); */
+          /* else if (i!=pw_strength) */
+          /*   plyr->powers[i] = 1; */
+          /* else */
+          /*   plyr->powers[i] = 0; */
 	  
-	  plyr->message = DEH_String(STSTR_BEHOLDX);
+          /* plyr->message = DEH_String(STSTR_BEHOLDX); */
 	}
       }
       
       // 'behold' power-up menu
       if (cht_CheckCheat(&cheat_powerup[6], ev->data2))
       {
-	plyr->message = DEH_String(STSTR_BEHOLD);
+        plyr->message = DEH_String(STSTR_BEHOLD_DIS);
+        /* plyr->message = DEH_String(STSTR_BEHOLD); */
       }
       // 'choppers' invulnerability & chainsaw
       else if (cht_CheckCheat(&cheat_choppers, ev->data2))
       {
-	plyr->weaponowned[wp_chainsaw] = true;
-	plyr->powers[pw_invulnerability] = true;
-	plyr->message = DEH_String(STSTR_CHOPPERS);
+        plyr->message = DEH_String(STSTR_CHOPPERS_DIS);
+        /* plyr->weaponowned[wp_chainsaw] = true; */
+        /* plyr->powers[pw_invulnerability] = true; */
+        /* plyr->message = DEH_String(STSTR_CHOPPERS); */
       }
       // 'mypos' for player position
       else if (cht_CheckCheat(&cheat_mypos, ev->data2))

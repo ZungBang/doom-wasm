@@ -37,6 +37,7 @@ static deh_cheat_t allcheats[] =
     {"Change music",        &cheat_mus },
     {"Chainsaw",            &cheat_choppers },
     {"God mode",            &cheat_god },
+    {"xxxxxx mode",         &cheat_xxxxxx },
     {"Ammo & Keys",         &cheat_ammo },
     {"Ammo",                &cheat_ammonokey },
     {"No Clipping 1",       &cheat_noclip },

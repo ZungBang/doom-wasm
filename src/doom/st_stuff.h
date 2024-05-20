@@ -76,6 +76,7 @@ typedef enum
 extern pixel_t *st_backing_screen;
 extern cheatseq_t cheat_mus;
 extern cheatseq_t cheat_god;
+extern cheatseq_t cheat_xxxxxx;
 extern cheatseq_t cheat_ammo;
 extern cheatseq_t cheat_ammonokey;
 extern cheatseq_t cheat_noclip;

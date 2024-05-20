@@ -336,18 +336,25 @@
 #define STSTR_MUS		"Music Change"
 #define STSTR_NOMUS		"IMPOSSIBLE SELECTION"
 #define STSTR_DQDON		"Degreelessness Mode On"
-#define STSTR_DQDOFF	"Degreelessness Mode Off"
+#define STSTR_DQDOFF            "Degreelessness Mode Off"
+#define STSTR_DQD_DIS		"'Gott ist tot' -- F. Nietzsche"
+
 
 #define STSTR_KFAADDED	"Very Happy Ammo Added"
+#define STSTR_KFAADDED_DIS	"Nope."
 #define STSTR_FAADDED	"Ammo (no keys) Added"
+#define STSTR_FAADDED_DIS	"Not today."
 
 #define STSTR_NCON		"No Clipping Mode ON"
 #define STSTR_NCOFF		"No Clipping Mode OFF"
+#define STSTR_NC_DIS		"Access Denied"
 
 #define STSTR_BEHOLD	"inVuln, Str, Inviso, Rad, Allmap, or Lite-amp"
 #define STSTR_BEHOLDX	"Power-up Toggled"
+#define STSTR_BEHOLD_DIS	"Power-ups powered down."
 
 #define STSTR_CHOPPERS	"... doesn't suck - GM"
+#define STSTR_CHOPPERS_DIS	"... doesn't work - ZB"
 #define STSTR_CLEV		"Changing Level..."
 
 //

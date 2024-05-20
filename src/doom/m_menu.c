@@ -184,6 +184,7 @@ static void M_SaveGame(int choice);
 static void M_Options(int choice);
 static void M_EndGame(int choice);
 static void M_ReadThis(int choice);
+static void M_ReadThis1_5(int choice);
 static void M_ReadThis2(int choice);
 static void M_QuitDOOM(int choice);
 
@@ -204,6 +205,7 @@ static void M_QuickLoad(void);
 
 static void M_DrawMainMenu(void);
 static void M_DrawReadThis1(void);
+static void M_DrawReadThis1_5(void);
 static void M_DrawReadThis2(void);
 static void M_DrawNewGame(void);
 static void M_DrawEpisode(void);
@@ -373,7 +375,7 @@ enum
 
 menuitem_t ReadMenu1[] =
 {
-    {1,"",M_ReadThis2,0}
+    {1,"",M_ReadThis1_5,0}
 };
 
 menu_t  ReadDef1 =
@@ -383,6 +385,27 @@ menu_t  ReadDef1 =
     ReadMenu1,
     M_DrawReadThis1,
     280,185,
+    0
+};
+
+enum
+{
+    rdthsempty1_5,
+    read1_5_end
+} read_e1_5;
+
+menuitem_t ReadMenu1_5[] =
+{
+    {1,"",M_ReadThis2,0}
+};
+
+menu_t  ReadDef1_5 =
+{
+    read1_5_end,
+    &ReadDef1,
+    ReadMenu1_5,
+    M_DrawReadThis1_5,
+    270,185,
     0
 };
 
@@ -400,7 +423,7 @@ menuitem_t ReadMenu2[]=
 menu_t  ReadDef2 =
 {
     read2_end,
-    &ReadDef1,
+    &ReadDef1_5,
     ReadMenu2,
     M_DrawReadThis2,
     330,175,
@@ -794,7 +817,12 @@ void M_DrawReadThis1(void)
     V_DrawPatchDirect(0, 0, W_CacheLumpName(DEH_String("HELP2"), PU_CACHE));
 }
 
+void M_DrawReadThis1_5(void)
+{
+    inhelpscreens = true;
 
+    V_DrawPatchDirect(0, 0, W_CacheLumpName(DEH_String("HELP2"), PU_CACHE));
+}
 
 //
 // Read This Menus - optional second page.
@@ -1050,6 +1078,12 @@ void M_ReadThis(int choice)
 {
     choice = 0;
     M_SetupNextMenu(&ReadDef1);
+}
+
+void M_ReadThis1_5(int choice)
+{
+    choice = 0;
+    M_SetupNextMenu(&ReadDef1_5);
 }
 
 void M_ReadThis2(int choice)

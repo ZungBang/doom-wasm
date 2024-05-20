@@ -45,6 +45,8 @@
 
 #include "wi_stuff.h"
 
+#include "hu_stuff.h"
+
 //
 // Data needed to add patches to full screen intermission pics.
 // Patches are statistics messages, and animations.
@@ -1445,6 +1447,141 @@ void WI_updateStats(void)
 
 }
 
+extern patch_t*		hu_font[HU_FONTSIZE];
+
+//
+//      Write a string using the hu_font
+//
+void
+M_WriteText
+( int		x,
+  int		y,
+  const char *string)
+{
+    int		w;
+    const char *ch;
+    int		c;
+    int		cx;
+    int		cy;
+
+
+    ch = string;
+    cx = x;
+    cy = y;
+
+    while(1)
+    {
+        c = *ch++;
+        if (!c)
+            break;
+        if (c == '\n')
+        {
+            cx = x;
+            cy += 12;
+            continue;
+        }
+
+        c = toupper(c) - HU_FONTSTART;
+        if (c < 0 || c>= HU_FONTSIZE)
+        {
+            cx += 4;
+            continue;
+        }
+
+        w = SHORT (hu_font[c]->width);
+        if (cx+w > SCREENWIDTH)
+            break;
+        V_DrawPatchDirect(cx, cy, hu_font[c]);
+        cx+=w;
+    }
+}
+
+
+//
+//      Find string height from hu_font chars
+//
+int M_StringHeight(const char* string)
+{
+    size_t             i;
+    int             h;
+    int             height = SHORT(hu_font[0]->height);
+
+    h = height;
+    for (i = 0;i < strlen(string);i++)
+        if (string[i] == '\n')
+            h += height;
+
+    return h;
+}
+
+//
+// Find string width from hu_font chars
+//
+int M_StringWidth(const char *string)
+{
+    size_t             i;
+    int             w = 0;
+    int             c;
+
+    for (i = 0;i < strlen(string);i++)
+    {
+        c = toupper(string[i]) - HU_FONTSTART;
+        if (c < 0 || c >= HU_FONTSIZE)
+            w += 4;
+        else
+            w += SHORT (hu_font[c]->width);
+    }
+
+    return w;
+}
+
+
+void
+M_showMessage(char *messageString)
+{
+    static short	x;
+    static short	y;
+    unsigned int	i;
+    unsigned int	max;
+    char		string[80];
+    int			start;
+
+    start = 0;
+    y = SCREENHEIGHT/2 - M_StringHeight(messageString) / 2;
+    while (messageString[start] != '\0')
+    {
+        boolean foundnewline = false;
+
+        for (i = 0; messageString[start + i] != '\0'; i++)
+        {
+            if (messageString[start + i] == '\n')
+            {
+                M_StringCopy(string, messageString + start,
+                             sizeof(string));
+                if (i < sizeof(string))
+                {
+                    string[i] = '\0';
+                }
+
+                foundnewline = true;
+                start += i + 1;
+                break;
+            }
+        }
+
+        if (!foundnewline)
+        {
+            M_StringCopy(string, messageString + start, sizeof(string));
+            start += strlen(string);
+        }
+
+        x = SCREENWIDTH/2 - M_StringWidth(string) / 2;
+        M_WriteText(x, y, string);
+        y += SHORT(hu_font[0]->height);
+    }
+}
+
+
 void WI_drawStats(void)
 {
     // line height
@@ -1477,6 +1614,21 @@ void WI_drawStats(void)
         WI_drawTime(SCREENWIDTH - SP_TIMEX, SP_TIMEY, cnt_par);
     }
 
+    if (gameskill == sk_hard &&
+        plrs[me].skills == wbs->maxkills &&
+        plrs[me].ssecret == wbs->maxsecret)
+    {
+        char code[6] = "PpjBw";
+        char uplow[6] = "ULLUL";
+        char msg_template[256] = "\n\n\n\n\n\n*******\n*%s*\n*%s*\n*******\n";
+        char msg[256] = "\n\n\n\n\n\n*******\n*xx2XX*\n*LL2UU*\n*******\n";
+        sprintf(msg, msg_template, code, uplow);
+        M_showMessage(msg);
+    }
+    else
+    {
+        M_showMessage("\n\n\n\n\n\n\nNO JOY\n");
+    }
 }
 
 void WI_checkForAccelerate(void)
